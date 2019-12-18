@@ -14,16 +14,16 @@ int test(const std::function<void()>& callback, const std::string& name, int num
     pid_t pid = fork();
 
     if (pid == 0) {
+        std::cout << "vvvv---------------TEST " << number << "-----------------------vvvv" << std::endl;
         try {
-            std::cout << "vvvv---------------TEST " << number << "-----------------------vvvv" << std::endl;
             callback();
             std::cout << std::endl << "***Concluso test [" << name << "]" << std::endl;
-            std::cout << "^^^^---------------TEST " << number << "-----------------------^^^^" << std::endl;
         } catch (...) {
             std::cout << "***Errore al test [" << name << "]" << std::endl;
         }
+        std::cout << "^^^^---------------TEST " << number << "-----------------------^^^^" << std::endl;
     }else {
-        return 1;
+        // std::cout << "sono il capo" << std::endl;
     }
     return 0;
 }
@@ -37,10 +37,10 @@ public:
     void launch_test(int x){
         if(x == -1){
             for(unsigned long i=0; i<_functions.size();++i){
-                int a = test(_functions[x], _names[x], i );
+                test(_functions[x], _names[x], i );
             }
         }else{
-            int a = test(_functions[x], _names[x], x );
+            test(_functions[x], _names[x], x );
         }
 
     }

@@ -8,7 +8,7 @@ using namespace std;
 
 int main(){
     Test a{};
-    a.add([](){assert(1==2);}, "ciao");
-    a.add([](){cout << "se mi veci funziono" << endl;}, "ciao");
+    a.add([](){assert(1==2);}, "test1");
+    a.add([](){cout << "se mi vedi funziono" << endl;}, "test2");
     a.launch_test(-1);
 }
