@@ -36,7 +36,7 @@ public:
                 pid_t pid = fork();
                 if (pid == 0) {
                     std::cout << "vvvv---------------TEST " << i << "-----------------------vvvv" << std::endl;
-                    _functions[x]();
+                    _functions[i]();
                     std::cout << std::endl << "***Concluso test [" << _names[i] << "]" << std::endl;
                     std::cout << "^^^^---------------TEST " << i << "-----------------------^^^^" << std::endl;
                 }else{}
