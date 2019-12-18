@@ -5,37 +5,46 @@
 #ifndef TENSORLIB_TESTLIB_H
 #define TENSORLIB_TESTLIB_H
 
+#include <functional>
+#include <vector>
+#include <iostream>
+#include <zconf.h>
+
+int test(const std::function<void()>& callback, const std::string& name, int number){
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        try {
+            std::cout << "vvvv---------------TEST " << number << "-----------------------vvvv" << std::endl;
+            callback();
+            std::cout << std::endl << "***Concluso test [" << name << "]" << std::endl;
+            std::cout << "^^^^---------------TEST " << number << "-----------------------^^^^" << std::endl;
+        } catch (...) {
+            std::cout << "***Errore al test [" << name << "]" << std::endl;
+        }
+    }else {
+        return 1;
+    }
+    return 0;
+}
+
 class Test{
 private:
-    vector<function<void()>> _functions;
-    vector<string> _names;
+    std::vector<std::function<void()>> _functions;
+    std::vector<std::string> _names;
 
 public:
     void launch_test(int x){
         if(x == -1){
             for(unsigned long i=0; i<_functions.size();++i){
-                try {
-                    cout << "vvvv---------------TEST " << i << "-----------------------vvvv" << endl;
-                    _functions[i]();
-                    cout<< endl << "***Concluso test ["<< _names[i] << "]" <<endl;
-                    cout << "^^^^---------------TEST " << i << "-----------------------^^^^" << endl;
-                }catch(...) {
-                    cout << "***Errore al test ["<< _names[x] << "]" <<endl;
-                }
+                int a = test(_functions[x], _names[x], i );
             }
         }else{
-            try {
-                cout << "VVVV---------------TEST " << x << "-----------------------VVVV" << endl;
-                _functions[x]();
-                cout<< endl << "***Concluso test ["<< _names[x] << "]" <<endl;
-                cout << "^^^^---------------TEST " << x << "-----------------------^^^^" << endl;
-            }catch(...) {
-                cout << "***Errore al test ["<< _names[x] << "]" <<endl;
-            }
+            int a = test(_functions[x], _names[x], x );
         }
 
     }
-    void add(const function<void()>& a, const string& name){
+    void add(const std::function<void()>& a, const std::string& name){
         _functions.push_back(a);
         _names.push_back(name);
     }
